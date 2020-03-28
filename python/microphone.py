@@ -2,6 +2,7 @@ import time
 import numpy as np
 import pyaudio
 import config
+import sys
 
 
 def start_stream(callback):
@@ -25,6 +26,8 @@ def start_stream(callback):
             if time.time() > prev_ovf_time + 1:
                 prev_ovf_time = time.time()
                 print('Audio buffer has overflowed {} times'.format(overflows))
+            if overflows > 2500:
+                sys.exit()
     stream.stop_stream()
     stream.close()
     p.terminate()
